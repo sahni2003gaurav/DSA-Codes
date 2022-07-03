@@ -1,0 +1,154 @@
+// Adjacency Matrix representation in C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Graph {
+   private:
+  bool** adjMatrix;
+  int numVertices;
+
+   public:
+  // Initialize the matrix to zero
+  Graph(int numVertices) {
+    this->numVertices = numVertices;
+    adjMatrix = new bool*[numVertices];
+    for (int i = 0; i < numVertices; i++) {
+      adjMatrix[i] = new bool[numVertices];
+      for (int j = 0; j < numVertices; j++)
+        adjMatrix[i][j] = false;
+    }
+  }
+
+  // Add edges
+  void addEdge(int i, int j) {
+    adjMatrix[i][j] = true;
+    adjMatrix[j][i] = true;
+  }
+
+  // Remove edges
+  void removeEdge(int i, int j) {
+    adjMatrix[i][j] = false;
+    adjMatrix[j][i] = false;
+  }
+
+  // Print the martix
+  void toString() {
+    for (int i = 0; i < numVertices; i++) {
+      cout << i << " : ";
+      for (int j = 0; j < numVertices; j++)
+        cout << adjMatrix[i][j] << " ";
+      cout << "\n";
+    }
+  }
+  
+void dfs(int numVertices,int index)
+  {
+      int j=index;
+      vector<int> visited;
+      stack<int> V;
+      
+      for(auto i=0;i<numVertices;i++)
+      {
+          if(i!=0)
+          {
+              j=V.top();
+              visited.push_back(j);
+              V.pop();
+          }
+          else
+          {
+          visited.push_back(j);
+          }
+          for(auto k=0;k<numVertices;k++)
+          {
+              if(adjMatrix[j][k]==true)
+              {
+                  for(auto a=0;a<visited.size();a++)
+                  {
+                    stack<int> s = V;
+                    int flag=0;
+                    while(!s.empty()) {
+                        if(s.top()==k)
+                        {
+                            flag=1;
+                            break;
+                        }
+                        s.pop();
+                        }
+                        if(flag==1)
+                        {
+                            break;
+                        }
+                        
+                        int f=0;
+                        for(auto b=0;b<visited.size();b++)
+                        {
+                        if(k==visited[b])
+                        {
+                            f=1;
+                            break;
+                        }
+                        }
+                        if(f==0)
+                        {
+                          V.push(k);
+                        }
+                    
+                  }
+              }
+          }
+          
+      for(auto c=0;c<visited.size();c++)
+      {
+          cout<<visited[c]<<" ";
+      }
+      
+                          cout<<"i:"<<i;
+                          PrintStack(V);
+                          cout<<endl;
+          
+      }
+      for(auto i=0;i<numVertices;i++)
+      {
+          cout<<visited[i]<<" ";
+      }
+  }
+void PrintStack(stack<int> s)
+{
+   if (s.empty())
+        return;
+     
+ 
+    int x = s.top();
+ 
+    s.pop();
+ 
+    PrintStack(s);
+ 
+    cout << x << " ";
+ 
+    s.push(x);
+}
+ 
+
+};
+
+int main() {
+  Graph g(11);
+
+  g.addEdge(0, 1);
+  g.addEdge(0, 2);
+  g.addEdge(0, 3);
+  g.addEdge(3, 5);
+  g.addEdge(1, 4);
+  g.addEdge(1, 6);
+  g.addEdge(1, 7);
+  g.addEdge(2, 8);
+  g.addEdge(2, 9);
+  g.addEdge(2, 10);
+  g.addEdge(7, 8);
+  g.toString();
+  
+  g.dfs(11,0);
+}
