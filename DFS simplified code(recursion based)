@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+vector<int> g[10];
+bool visited[4] = {false};
+
+int insert(int src , int dest)
+{
+    g[src].push_back(dest);
+}
+
+int dfs(int v){
+    if(visited[v]==true)
+    {
+        return 0;
+    }
+    visited[v] = true;
+    cout<< v <<" " <<endl;
+    
+    for(auto x:g[v])
+    {
+        dfs(x);
+    }
+}
+
+int main() {
+    int vert , e;
+    cin>>vert>>e;
+
+    int edges[e][2];
+    
+    for(int i=0;i<e;i++)
+    {
+        cin>>edges[i][0]>>edges[i][1];
+        insert(edges[i][0],edges[i][1]);
+    }
+    
+    dfs(1);
+
+
+    return 0;
+
+}
